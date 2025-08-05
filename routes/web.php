@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\ConfiguratorController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VerificationController;
 use App\Http\Middleware\IsVerified;
@@ -9,6 +10,8 @@ use Inertia\Inertia;
 
 // website routes
 Route::get('/', [HomeController::class, 'index']);
+Route::get('/configurator', [ConfiguratorController::class, 'index']);
+Route::get('/configurator/{frameType}', [ConfiguratorController::class, 'configure']);
 
 // verification routes
 Route::get('/verification/user', [VerificationController::class, 'notice'])->name('verification.user');

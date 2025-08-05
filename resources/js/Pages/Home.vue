@@ -1,4 +1,4 @@
-<script setup>
+<script setup> 
 import { Head, Link } from '@inertiajs/vue3';
 import Navigation from '@/Components/Navigation.vue';
 import Footer from '@/Components/Footer.vue';
@@ -11,6 +11,10 @@ defineProps({
         type: Object,
         default: null,
     },
+    categories: {
+        type: Array,
+        default: () => [],
+    },
 });
 
 </script>
@@ -19,12 +23,12 @@ defineProps({
     <Head :title="homepage?.title || 'FrameCraft - Premium Window & Door Frames'" />
 
     <div class="bg-white">
-        <Navigation />
+        <Navigation :categories="categories" />
 
         <Hero :homepage="homepage" />
 
         <section id="materials" class="bg-gray-50 pb-12">
-            <div class="text-center pt-16 pb-2">
+            <div class="text-center pt-5 pb-2">
                 <h2 class="text-4xl font-bold text-gray-900 mb-4">Our Materials</h2>
             </div>
             <div class="flex flex-wrap justify-center gap-6 px-4 pt-12 mx-auto">

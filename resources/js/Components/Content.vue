@@ -34,7 +34,7 @@ defineProps({
         </div>
 
         <!-- Show the main content -->
-        <div v-if="page.content" class="py-16 pt-3 bg-gray-200">
+        <div v-if="page.content" class="py-16 pt-5 bg-gray-200">
             <div class="max-w-4xl mx-auto px-4">
                 <div v-if="hasHeroSection" class="text-center mb-12">
                     <h2 class="text-4xl font-bold text-gray-900 mb-4">Content</h2>

@@ -1,18 +1,19 @@
 <?php
 
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\VerificationController;
 use App\Http\Middleware\IsVerified;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::get('/', function () {
-    return Inertia::render('Home', [
-    ]);
-});
+// website routes
+Route::get('/', [HomeController::class, 'index']);
 
+// verification routes
 Route::get('/verification/user', [VerificationController::class, 'notice'])->name('verification.user');
-    
+
+// dashboard routes
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');
 })->middleware(['auth', IsVerified::class])->name('dashboard');

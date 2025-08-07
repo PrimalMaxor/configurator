@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
+import ConfigurationModal from '@/components/ConfigurationModal.vue';
 import { ref } from 'vue';
+import { router } from '@inertiajs/vue3';
 
 defineProps<{
     types: string[];
@@ -9,6 +11,9 @@ defineProps<{
 
 const selectedType = ref<string | null>(null);
 const selectedMaterials = ref<Record<string, string>>({});
+const showConfigModal = ref(false);
+const currentConfigType = ref<string>('');
+const currentConfigMaterial = ref<string>('');
 
 const selectType = (type: string) => {
     if (selectedType.value === type) {
@@ -21,6 +26,20 @@ const selectType = (type: string) => {
 
 const selectMaterial = (type: string, material: string) => {
     selectedMaterials.value[type] = material;
+};
+
+const openConfigModal = (type: string, material: string) => {
+    currentConfigType.value = type;
+    currentConfigMaterial.value = material;
+    showConfigModal.value = true;
+};
+
+const handleStartFromScratch = (type: string, material: string) => {
+    router.post(`/start-from-scratch/${type}/${material}`);
+};
+
+const handleUsePreset = (type: string, material: string) => {
+    router.visit(`/presets/${type}/${material}`);
 };
 </script>
 
@@ -86,9 +105,9 @@ const selectMaterial = (type: string, material: string) => {
                                 </button>
                             </div>
                             <div class="mt-4 flex justify-center">
-                                <button v-if="selectedMaterials[type]" @click.stop
-                                    class="px-5 py-2 bg-blue-500 text-white rounded-md font-medium hover:bg-blue-600 transition-colors duration-150 shadow-sm hover:shadow-md">
-                                    Configure {{ selectedMaterials[type] }}
+                                <button v-if="selectedMaterials[type]" @click.stop="openConfigModal(type, selectedMaterials[type])"
+                                    class="px-5 py-2 mt-7 bg-blue-500 text-white rounded-md font-medium hover:bg-blue-600 transition-colors duration-150 shadow-sm hover:shadow-md">
+                                    Configure
                                 </button>
                             </div>
                         </CardContent>
@@ -96,5 +115,13 @@ const selectMaterial = (type: string, material: string) => {
                 </Transition>
             </div>
         </div>
+
+        <ConfigurationModal
+            v-model:open="showConfigModal"
+            :config-type="currentConfigType"
+            :config-material="currentConfigMaterial"
+            @start-from-scratch="handleStartFromScratch"
+            @use-preset="handleUsePreset"
+        />
     </div>
 </template>
